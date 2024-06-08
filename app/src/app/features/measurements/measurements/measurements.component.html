@@ -1,0 +1,8 @@
+<div class="h-100 w-100 d-flex">
+  <app-measurements-list
+    [measurements]="(measurements$ | async) || []"
+  ></app-measurements-list>
+  <app-measurements-graph
+    [measurements]="(measurements$ | async) || []"
+  ></app-measurements-graph>
+</div>
