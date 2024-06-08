@@ -1,7 +1,7 @@
 import os
 
 import pandas as pd
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 
 
 def create_app(result_file_path):
@@ -15,7 +15,15 @@ def create_app(result_file_path):
         pass
 
     @app.route('/')
-    def hello_world():
+    def serve_index():
+        return send_from_directory(app.static_folder, 'index.html')
+
+    @app.route('/<path:path>')
+    def serve_static_files(path):
+        return send_from_directory(app.static_folder, path)
+
+    @app.route('/data')
+    def data():
         return jsonify(read_csv_to_json(result_file_path))
 
     return app
