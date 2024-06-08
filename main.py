@@ -1,13 +1,27 @@
 import datetime
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.schedulers.blocking import BlockingScheduler
+from flask import Flask, jsonify
 
 from calculate_download_speed import calculate_average_mbit_per_seconds
 from measure_speed import measure_speed
+import pandas as pd
+
+app = Flask(__name__)
 
 file_size_description = '100MB'
 download_url = 'https://fsn1-speed.hetzner.com/' + file_size_description + '.bin'
+result_file_path = './results.csv'
+
+
+def read_csv_to_json(file_path):
+    df = pd.read_csv(file_path, names=['time', 'download_duration', 'avg_mbps'], header=None)
+    return df.to_dict(orient='records')
+
+
+@app.route('/')
+def hello_world():
+    return jsonify(read_csv_to_json(result_file_path))
 
 
 def measurement_job():
@@ -23,17 +37,22 @@ def measurement_job():
         print('Exception: {}'.format(e))
         loggable_output = '{},0,0'.format(timestamp)
 
-    f = open('./results.txt', 'a')
-    print('Writing to file: {}'.format(loggable_output))
-    f.writelines(['\n', loggable_output])
-    f.close()
+    try:
+        f = open(result_file_path, 'a')
+        print('Writing to file: {}'.format(loggable_output))
+        f.writelines(['\n', loggable_output])
+        f.close()
+    except Exception as e:
+        print('Writing to file failed: {}'.format(e))
 
 
 if __name__ == '__main__':
-    scheduler = BlockingScheduler() # Change to BackgroundScheduler when there is an API endpoint that is running in foreground
-
+    # Scheduling has to come before the flask web server
+    scheduler = BackgroundScheduler()
     scheduler.add_job(measurement_job, 'cron', second='*/20')
     try:
         scheduler.start()
     except (KeyboardInterrupt, SystemExit):
         pass
+
+    app.run(debug=True)
