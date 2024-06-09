@@ -9,7 +9,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class BackendService {
 
-  baseUrl = environment.base_url;
+  baseUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}`;
 
   constructor(
     private http: HttpClient
