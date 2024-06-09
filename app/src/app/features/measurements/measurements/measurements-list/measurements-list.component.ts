@@ -9,6 +9,8 @@ import {Subject} from "rxjs";
 })
 export class MeasurementsListComponent implements OnInit {
 
+  columnsToDisplay = ['timestamp', 'downloadDuration', 'avgMbps'];
+
  @Input()
  set measurements(measurements: Measurement[]){
    this.measurements$.next(measurements);
