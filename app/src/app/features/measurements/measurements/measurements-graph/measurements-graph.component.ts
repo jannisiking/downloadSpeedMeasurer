@@ -19,8 +19,6 @@ export class MeasurementsGraphComponent implements OnInit, OnDestroy {
 
   measurements$ = new Subject<Measurement[]>()
 
-  chart: any = [];
-
   constructor() {
     Chart.register(...registerables)
   }
@@ -32,6 +30,7 @@ export class MeasurementsGraphComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(measurements => {
+
         const datasets = [
           {
             label: 'Durschnittl. mb/s',
