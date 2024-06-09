@@ -28,6 +28,14 @@ $my-theme: mat.define-light-theme((
   display: flex;
 }
 
+.position-relative{
+  position: relative;
+}
+
+.overflow-scroll{
+  overflow: scroll;
+}
+
 .justify-content-space-evenly{
   justify-content: space-evenly;
 }

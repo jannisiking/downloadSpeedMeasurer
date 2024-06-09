@@ -1,43 +1,46 @@
-<table mat-table [dataSource]="(measurements$ | async) || []">
-  <ng-container matColumnDef="timestamp">
-    <th mat-header-cell *matHeaderCellDef>
-      <div class="spacing-table-cells">
-        Zeitstempel
-      </div>
-    </th>
-    <td mat-cell *matCellDef="let measurement">
-      <div class="spacing-table-cells">
-        {{ measurement.timestamp }}
-      </div>
-    </td>
-  </ng-container>
+<div class="overflow-scroll h-100">
 
-  <ng-container matColumnDef="downloadDuration">
-    <th mat-header-cell *matHeaderCellDef>
-      <div class="spacing-table-cells">
-        Download-Dauer
-      </div>
-    </th>
-    <td mat-cell *matCellDef="let measurement">
-      <div class="spacing-table-cells">
-        {{ measurement.duration }} &nbsp; s
-      </div>
-    </td>
-  </ng-container>
+  <table mat-table [dataSource]="(measurements$ | async) || []">
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="spacing-table-cells">
+          Zeitstempel
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let measurement">
+        <div class="spacing-table-cells">
+          {{ measurement.timestamp }}
+        </div>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="avgMbps">
-    <th mat-header-cell *matHeaderCellDef>
-      <div class="spacing-table-cells">
-        Durchschnittl. Mbps
-      </div>
-    </th>
-    <td mat-cell *matCellDef="let measurement">
-      <div class="spacing-table-cells">
-        Ø &nbsp; {{ measurement.avg_mbps }} &nbsp; mb/s
-      </div>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="downloadDuration">
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="spacing-table-cells">
+          Download-Dauer
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let measurement">
+        <div class="spacing-table-cells">
+          {{ measurement.duration }} &nbsp; s
+        </div>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-</table>
+    <ng-container matColumnDef="avgMbps">
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="spacing-table-cells">
+          Durchschnittl. Mbps
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let measurement">
+        <div class="spacing-table-cells">
+          Ø &nbsp; {{ measurement.avg_mbps }} &nbsp; mb/s
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+  </table>
+</div>
