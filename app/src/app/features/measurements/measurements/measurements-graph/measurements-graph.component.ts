@@ -19,6 +19,8 @@ export class MeasurementsGraphComponent implements OnInit, OnDestroy {
 
   measurements$ = new Subject<Measurement[]>()
 
+  chart: Chart | null = null;
+
   constructor() {
     Chart.register(...registerables)
   }
@@ -42,7 +44,9 @@ export class MeasurementsGraphComponent implements OnInit, OnDestroy {
 
         const labels = measurements.map(measurement => measurement.timestamp.toString());
 
-        new Chart('canvas', {
+        if(this.chart) this.chart.destroy();
+
+        this.chart = new Chart('canvas', {
           type: 'line',
           data: {
             labels: labels,
