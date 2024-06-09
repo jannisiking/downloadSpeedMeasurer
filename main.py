@@ -19,4 +19,4 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         pass
 
-    create_app(result_file_path_template).run(debug=True)
+    create_app(result_file_path_template).run(debug=True, use_reloader=False)
