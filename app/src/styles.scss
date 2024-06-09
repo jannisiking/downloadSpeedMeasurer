@@ -19,3 +19,21 @@ $my-theme: mat.define-light-theme((
 // passed to `define-light-theme` omits typography, `button-theme` will not
 // emit any typography styles.
 @include mat.table-theme($my-theme);
+
+
+.h-100{
+  height: 100%;
+}
+
+.w-100{
+  width: 100%;
+}
+
+.d-flex{
+  display: flex;
+}
+
+.justify-content-space-evenly{
+  justify-content: space-evenly;
+}
+

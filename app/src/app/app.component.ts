@@ -18,7 +18,6 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     this.measurements$ = this.backendService.getMeasurements();
-    this.measurements$.subscribe(console.log)
   }
 
 
