@@ -13,7 +13,7 @@ def measurement_job():
 if __name__ == '__main__':
     # Scheduling has to come before the flask web server
     scheduler = BackgroundScheduler()
-    scheduler.add_job(measurement_job, 'cron', second='*/20')
+    scheduler.add_job(measurement_job, 'cron', minute='*/2')
     try:
         scheduler.start()
     except (KeyboardInterrupt, SystemExit):

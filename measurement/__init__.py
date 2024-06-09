@@ -44,7 +44,7 @@ def calculate_with_bits(speed_in_seconds, file_size_in_bits):
 def measure_download_of_data_and_write_result_to_file(result_file_path_template):
     timestamp = datetime.datetime.now()
     try:
-        result = measure_speed(download_url, 15)
+        result = measure_speed(download_url, 60)
         print('result: {}'.format(result))
         mbit_per_seconds = calculate_average_mbit_per_seconds(result)
         print('mbps: {}'.format(mbit_per_seconds))
