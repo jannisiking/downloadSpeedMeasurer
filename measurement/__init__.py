@@ -41,7 +41,7 @@ def calculate_with_bits(speed_in_seconds, file_size_in_bits):
     return (file_size_in_bits / speed_in_seconds)/1000/1000
 
 
-def measure_download_of_data_and_write_result_to_file(result_file_path):
+def measure_download_of_data_and_write_result_to_file(result_file_path_template):
     timestamp = datetime.datetime.now()
     try:
         result = measure_speed(download_url, 15)
@@ -55,7 +55,7 @@ def measure_download_of_data_and_write_result_to_file(result_file_path):
         loggable_output = '{},0,0'.format(timestamp)
 
     try:
-        f = open(result_file_path, 'a')
+        f = open(result_file_path_template.format(datetime.date.today()), 'a')
         print('Writing to file: {}'.format(loggable_output))
         f.writelines(['\n', loggable_output])
         f.close()

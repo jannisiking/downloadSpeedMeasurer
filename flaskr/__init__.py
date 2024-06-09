@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import pandas as pd
@@ -29,8 +30,8 @@ def create_app(result_file_path):
     return app
 
 
-def read_csv_to_json(file_path):
-    df = pd.read_csv(file_path, names=['time', 'download_duration', 'avg_mbps'], header=None)
+def read_csv_to_json(file_path_template):
+    df = pd.read_csv(file_path_template.format(datetime.date.today()), names=['time', 'download_duration', 'avg_mbps'], header=None)
     return df.to_dict(orient='records')
 
 
