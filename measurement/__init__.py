@@ -4,6 +4,8 @@ from io import BytesIO
 
 import requests
 
+from model import Measurement
+
 download_url = 'https://fsn1-speed.hetzner.com/100MB.bin'
 
 
@@ -41,23 +43,21 @@ def calculate_with_bits(speed_in_seconds, file_size_in_bits):
     return (file_size_in_bits / speed_in_seconds)/1000/1000
 
 
-def measure_download_of_data_and_write_result_to_file(result_file_path_template):
+def measure_download_of_data_and_write_result_to_file():
     timestamp = datetime.datetime.now()
+    duration = 0
+    mbit_per_seconds = 0
     try:
-        result = measure_speed(download_url, 60)
-        print('result: {}'.format(result))
-        mbit_per_seconds = calculate_average_mbit_per_seconds(result)
+        print('timestamp: {}'.format(timestamp))
+        duration = measure_speed(download_url, 15)
+        print('duration: {}'.format(duration))
+        mbit_per_seconds = calculate_average_mbit_per_seconds(duration)
         print('mbps: {}'.format(mbit_per_seconds))
-        loggable_output = '{},{},{}'.format(timestamp, result, mbit_per_seconds)
-        print('loggable_output: {}'.format(loggable_output))
     except Exception as e:
         print('Exception: {}'.format(e))
-        loggable_output = '{},0,0'.format(timestamp)
 
-    try:
-        f = open(result_file_path_template.format(datetime.date.today()), 'a')
-        print('Writing to file: {}'.format(loggable_output))
-        f.writelines(['\n', loggable_output])
-        f.close()
-    except Exception as e:
-        print('Writing to file failed: {}'.format(e))
+    return Measurement(
+        timestamp=timestamp,
+        duration=duration,
+        avg_mbps=mbit_per_seconds
+    )
