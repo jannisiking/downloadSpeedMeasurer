@@ -4,6 +4,8 @@ import os
 import pandas as pd
 from flask import Flask, jsonify, send_from_directory
 
+import persistence
+
 
 def create_app(result_file_path):
     # create and configure the app
@@ -25,13 +27,8 @@ def create_app(result_file_path):
 
     @app.route('/data')
     def data():
-        return jsonify(read_csv_to_json(result_file_path))
+        measurements = persistence.get_all_measurements()
+        return jsonify([m.serialize() for m in measurements])
 
     return app
-
-
-def read_csv_to_json(file_path_template):
-    df = pd.read_csv(file_path_template.format(datetime.date.today()), names=['time', 'download_duration', 'avg_mbps'], header=None)
-    return df.to_dict(orient='records')
-
 

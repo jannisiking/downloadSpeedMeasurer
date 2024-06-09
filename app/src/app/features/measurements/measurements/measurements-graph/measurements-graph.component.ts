@@ -41,7 +41,7 @@ export class MeasurementsGraphComponent implements OnInit, OnDestroy {
           }
         ]
 
-        const labels = measurements.map(measurement => measurement.time.toString());
+        const labels = measurements.map(measurement => measurement.timestamp.toString());
 
         new Chart('canvas', {
           type: 'line',
