@@ -42,7 +42,7 @@ export class MeasurementsGraphComponent implements OnInit, OnDestroy {
           }
         ]
 
-        const labels = measurements.map(measurement => measurement.timestamp.toString());
+         const labels = measurements.map(measurement => measurement.timestamp.toString().split('.')[0]);
 
         if(this.chart) this.chart.destroy();
 
@@ -52,6 +52,16 @@ export class MeasurementsGraphComponent implements OnInit, OnDestroy {
             labels: labels,
             datasets: datasets
           },
+          options: {
+            scales: {
+              x: {
+                ticks: {
+                  display: false
+                }
+              }
+            }
+          }
+
         });
       })
 
