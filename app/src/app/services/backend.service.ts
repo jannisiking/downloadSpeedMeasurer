@@ -15,7 +15,16 @@ export class BackendService {
     private http: HttpClient
   ) { }
 
-  getMeasurements(): Observable<Measurement[]>{
-    return this.http.get<Measurement[]>(`${this.baseUrl}/data`);
+  getMeasurements(
+    fromTimestamp: Date | null,
+    toTimestamp: Date | null
+  ): Observable<Measurement[]>{
+
+    let url = `${this.baseUrl}/data`;
+    if(fromTimestamp && toTimestamp) url += `?from_timestamp=${fromTimestamp}&to_timestamp=${toTimestamp}`
+    if(fromTimestamp && !toTimestamp) url +=  `?from_timestamp=${fromTimestamp}`
+    if(!fromTimestamp && toTimestamp) url +=  `?to_timestamp=${toTimestamp}`
+
+    return this.http.get<Measurement[]>(url);
   }
 }

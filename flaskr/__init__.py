@@ -27,10 +27,9 @@ def create_app(result_file_path):
 
     @app.route('/data')
     def data():
-        from_timestamp = request.args.get('from_timestamp', datetime.datetime.now().replace(hour=0, minute=0, second=0))
-        to_timestamp = request.args.get('to_timestamp', datetime.datetime.now())
+        from_timestamp = request.args.get('from_timestamp', datetime.datetime.now().replace(hour=0, minute=0, second=0), type=lambda a: datetime.datetime.strptime(a,'%Y-%m-%dT%H:%M'))
+        to_timestamp = request.args.get('to_timestamp', datetime.datetime.now(), type=lambda a: datetime.datetime.strptime(a,'%Y-%m-%dT%H:%M'))
         measurements = persistence.get_all_measurements(from_timestamp, to_timestamp)
         return jsonify([m.serialize() for m in measurements])
 
     return app
-
