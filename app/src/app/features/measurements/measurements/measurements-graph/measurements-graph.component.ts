@@ -1,14 +1,14 @@
 import {AfterContentInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Measurement} from "../../../../model/measurement";
 import {Subject, takeUntil} from "rxjs";
-import {Chart, ChartItem} from "chart.js";
+import {Chart, registerables} from "chart.js";
 
 @Component({
   selector: 'app-measurements-graph',
   templateUrl: './measurements-graph.component.html',
   styleUrls: ['./measurements-graph.component.scss']
 })
-export class MeasurementsGraphComponent implements OnInit, OnDestroy, AfterContentInit {
+export class MeasurementsGraphComponent implements OnInit, OnDestroy {
 
   @Input()
   set measurements(measurements: Measurement[]) {
@@ -19,44 +19,43 @@ export class MeasurementsGraphComponent implements OnInit, OnDestroy, AfterConte
 
   measurements$ = new Subject<Measurement[]>()
 
-  ctx: HTMLCanvasElement = {} as any;
+  chart: any = [];
 
   constructor() {
+    Chart.register(...registerables)
   }
 
-  ngOnInit(): void {}
-
-  ngOnDestroy() {
-    this.destroy$.next();
-  }
-
-  ngAfterContentInit() {
-    this.ctx = document.getElementById('myChart') as HTMLCanvasElement;
+  ngOnInit(): void {
 
     this.measurements$
       .pipe(
         takeUntil(this.destroy$)
       )
       .subscribe(measurements => {
-        if (this.ctx !== null) {
-          new Chart(this.ctx, {
-            type: 'line',
-            data: {
-              labels: measurements.map(measurement => measurement.time.toString()),
-              datasets: [
-                {
-                  label: 'Durschnittl. mb/s',
-                  data: measurements.map(measurement => measurement.avg_mbps),
-                  borderColor: 'rgb(75, 192, 192)',
-                  tension: 0.1
-                }
-              ]
+        const datasets = [
+          {
+            label: 'Durschnittl. mb/s',
+            data: measurements.map(measurement => measurement.avg_mbps),
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+          }
+        ]
 
-            },
-          });
-        }
+        const labels = measurements.map(measurement => measurement.time.toString());
+
+        new Chart('canvas', {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: datasets
+          },
+        });
       })
 
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
   }
 
 }
