@@ -2,7 +2,7 @@ import datetime
 import os
 
 import pandas as pd
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, send_from_directory, request
 
 import persistence
 
@@ -27,7 +27,9 @@ def create_app(result_file_path):
 
     @app.route('/data')
     def data():
-        measurements = persistence.get_all_measurements()
+        from_timestamp = request.args.get('from_timestamp', datetime.datetime.now().replace(hour=0, minute=0, second=0))
+        to_timestamp = request.args.get('to_timestamp', datetime.datetime.now())
+        measurements = persistence.get_all_measurements(from_timestamp, to_timestamp)
         return jsonify([m.serialize() for m in measurements])
 
     return app

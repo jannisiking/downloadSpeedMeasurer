@@ -13,10 +13,18 @@ def save_measurement(measurement):
     cursor.close()
     con.close()
 
-def get_all_measurements():
+
+def get_all_measurements(from_timestamp, to_timestamp):
     con = sqlite3.connect('/Users/jannisprivat/PycharmProjects/pythonProject/persistence/database.db')
     cursor = con.cursor()
-    cursor.execute('SELECT timestamp, duration, avg_mbps FROM measurements')
+    print(from_timestamp)
+    print(to_timestamp)
+    cursor.execute('''
+    SELECT timestamp, duration, avg_mbps
+    FROM measurements
+    WHERE measurements.timestamp > :from_timestamp
+    AND measurements.timestamp <  :to_timestamp
+    ''', {"from_timestamp": from_timestamp, "to_timestamp": to_timestamp})
     rows = cursor.fetchall()
     cursor.close()
     con.close()
