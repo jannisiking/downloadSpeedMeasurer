@@ -1,10 +1,9 @@
 import datetime
 import os
 
-import pandas as pd
 from flask import Flask, jsonify, send_from_directory, request
 
-import persistence
+from app import persistence
 
 
 def create_app(result_file_path):

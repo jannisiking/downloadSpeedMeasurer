@@ -4,7 +4,7 @@ from io import BytesIO
 
 import requests
 
-from model import Measurement
+from app.model import Measurement
 
 download_url = 'https://fsn1-speed.hetzner.com/100MB.bin'
 
