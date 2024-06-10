@@ -6,7 +6,7 @@ from flask import Flask, jsonify, send_from_directory, request
 from app import persistence
 
 
-def create_app(result_file_path):
+def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 

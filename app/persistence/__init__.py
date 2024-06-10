@@ -2,9 +2,10 @@ import sqlite3
 
 from app.model import Measurement
 
+database_path = '/Users/jannisprivat/PycharmProjects/pythonProject/app/persistence/database.db'
 
 def save_measurement(measurement):
-    con = sqlite3.connect('/Users/jannisprivat/PycharmProjects/pythonProject/app/persistence/database.db')
+    con = sqlite3.connect(database_path)
     cursor = con.cursor()
     cursor.execute('INSERT INTO measurements(timestamp, duration, avg_mbps) VALUES (:timestamp, :duration, :avg_mbps)',
                    {"timestamp": measurement.timestamp, "duration": measurement.duration,
@@ -15,7 +16,7 @@ def save_measurement(measurement):
 
 
 def get_all_measurements(from_timestamp, to_timestamp):
-    con = sqlite3.connect('/app/persistence/database.db')
+    con = sqlite3.connect(database_path)
     cursor = con.cursor()
     print(from_timestamp)
     print(to_timestamp)

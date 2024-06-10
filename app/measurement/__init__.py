@@ -49,7 +49,7 @@ def measure_download_of_data_and_write_result_to_file():
     mbit_per_seconds = 0
     try:
         print('timestamp: {}'.format(timestamp))
-        duration = measure_speed(download_url, 15)
+        duration = measure_speed(download_url, 50)
         print('duration: {}'.format(duration))
         mbit_per_seconds = calculate_average_mbit_per_seconds(duration)
         print('mbps: {}'.format(mbit_per_seconds))
