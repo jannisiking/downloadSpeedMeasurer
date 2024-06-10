@@ -2,7 +2,23 @@ import sqlite3
 
 from app.model import Measurement
 
-database_path = '/Users/jannisprivat/PycharmProjects/pythonProject/app/persistence/database.db'
+database_path = 'database.db'
+
+
+def create_database():
+    con = sqlite3.connect(database_path)
+    cursor = con.cursor()
+    cursor.execute('''
+      create table IF NOT EXISTS measurements
+      (
+          id        INTEGER
+              primary key autoincrement,
+          timestamp DATETIME,
+          duration  REAL,
+          avg_mbps  REAL
+      )
+    ''')
+
 
 def save_measurement(measurement):
     con = sqlite3.connect(database_path)
